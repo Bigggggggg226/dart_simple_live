@@ -17,16 +17,23 @@ jobs:
         with:
           ref: master
 
-      # 设置Flutter环境
-      - name: Setup Flutter
+      # 设置JAVA环境（与原项目一致）
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: "17"
+          cache: 'gradle'
+
+      # 设置Flutter（使用原项目相同版本）
+      - name: Flutter action
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.x'
+          flutter-version: '3.22.x'
           cache: true
 
-      # 禁用分析
-      - name: Disable analytics
-        run: flutter config --no-analytics
+      # 打开MAC Desktop支持
+      - name: Enable Flutter Desktop
+        run: flutter config --enable-macos-desktop
 
       # 更新Flutter的packages
       - name: Restore packages
@@ -34,24 +41,17 @@ jobs:
           cd simple_live_app
           flutter pub get
 
-      # 清理构建缓存
-      - name: Clean build
-        run: |
-          cd simple_live_app
-          flutter clean
-          flutter pub get
-
-      # 打包iOS
+      # 打包iOS（与原项目完全一致）
       - name: Build IPA
         run: |
           cd simple_live_app
           flutter build ios --release --no-codesign
 
-      # 创建未签名ipa
+      # 创建未签名ipa（与原项目完全一致）
       - name: Create IPA
         run: |
           cd simple_live_app
-          mkdir -p build/ios/iphoneos/Payload
+          mkdir build/ios/iphoneos/Payload
           cp -R build/ios/iphoneos/Runner.app build/ios/iphoneos/Payload/Runner.app
           cd build/ios/iphoneos/
           zip -q -r ios_no_sign.ipa Payload
@@ -61,7 +61,7 @@ jobs:
       - name: Upload IPA to Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ios-app
+          name: ios
           path: |
             simple_live_app/build/ios/iphoneos/ios_no_sign.ipa
 
