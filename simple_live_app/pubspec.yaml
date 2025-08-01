@@ -20,7 +20,7 @@ dependencies:
   logger: ^2.0.2 #日志
   intl: ^0.19.0 #国际化
   qr_flutter: ^4.1.0 #二维码生成
-  dynamic_color: ^1.6.8 #动态颜色
+  dynamic_color: ^1.7.0 #动态颜色
   path: any
   udp: ^5.0.3 #UDP
   uuid: ^4.3.3 #UUID
@@ -76,8 +76,10 @@ dependencies:
   flutter_localizations: 
     sdk: flutter
 
-dependency_overrides: 
+dependency_overrides:
   screen_brightness: ^2.1.2
+  dynamic_color: ^1.7.0
+
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
