@@ -24,10 +24,11 @@ jobs:
           flutter-version: '3.24.x'
           cache: true
 
-      # 更新Flutter的packages
-      - name: Restore packages
+      # 修复依赖兼容性
+      - name: Fix dependencies
         run: |
           cd simple_live_app
+          flutter pub add dynamic_color:^1.6.8 --override
           flutter pub get
 
       # 打包iOS
